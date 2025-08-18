@@ -49,6 +49,19 @@ runmqakm -cert -list -db server-cert/key.kdb -stashed
 echo "server.kdb is ready"
 echo ">>"
 
+
+## Create empty jks keystore (need to give jks password)
+## move to client-cert directory
+cd client-cert
+runmqckm -keydb -create -db client.jks -type jks
+# Import the all certificate into the JKS keystore (will ask for both kdb and jks password)
+runmqckm -cert -import -db client.kdb -type kdb -stashed -target client.jks -target_type jks
+# Check
+runmqckm -cert -list -db target.jks -type jks
+echo "client.jks is ready"
+echo ">>"
+ 
+
 echo "[*] Completed mTLS certificate creation"
 
 
